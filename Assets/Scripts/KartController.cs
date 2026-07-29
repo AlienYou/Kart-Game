@@ -5,12 +5,16 @@ public class KartController : MonoBehaviour
     public Rigidbody rb;
     public float acceleration = 5000f;
     public float maxSpeed = 30f;
-    public float steering = 50f;
+    public Transform centerOfMass;
     float moveInput;
     float steerInput;
     float forwardSpeed;
     float sideSpeed;
 
+    void Start()
+    {
+        rb.centerOfMass = centerOfMass.localPosition;
+    }
 
     void Update()
     {
@@ -24,7 +28,7 @@ public class KartController : MonoBehaviour
     {
         Vector3 force = transform.forward * moveInput * acceleration;
         rb.AddForce(force);
-        if(rb.velocity.magnitude > maxSpeed)
+        if (rb.velocity.magnitude > maxSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
@@ -35,5 +39,15 @@ public class KartController : MonoBehaviour
         float steerPower = Mathf.Lerp(15, 50, steerFactor);
         float turn = steerInput * steerPower * Time.fixedDeltaTime;
         transform.Rotate(0, turn, 0);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (centerOfMass == null)
+        {
+            return;
+        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(centerOfMass.position, 0.08f);
     }
 }
