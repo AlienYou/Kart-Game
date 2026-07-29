@@ -8,6 +8,8 @@ public class KartController : MonoBehaviour
     public float steering = 50f;
     float moveInput;
     float steerInput;
+    float forwardSpeed;
+    float sideSpeed;
 
 
     void Update()
@@ -26,7 +28,12 @@ public class KartController : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
-        float turn = steerInput * steering * Time.fixedDeltaTime;
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        forwardSpeed = localVelocity.z;
+        sideSpeed = localVelocity.x;
+        float steerFactor = 1f - Mathf.Clamp01(Mathf.Abs(forwardSpeed) / maxSpeed);
+        float steerPower = Mathf.Lerp(15, 50, steerFactor);
+        float turn = steerInput * steerPower * Time.fixedDeltaTime;
         transform.Rotate(0, turn, 0);
     }
 }
