@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Timeline;
 
 [System.Serializable]
 public class KartWheel
@@ -19,14 +20,22 @@ public class KartWheel
     public bool isFrontWheel;
     public bool isLeftWheel;
 
+    [Header("运行时数据")]
     [HideInInspector]
     public bool grounded;
-
     [HideInInspector]
     public RaycastHit hit;
-
     [HideInInspector]
     public float compression;
     [HideInInspector]
     public float currentSuspensionLength;
+
+    [HideInInspector]
+    public float previousSuspensionLength;
+
+    [HideInInspector]
+    public float suspensionVelocity;
+
+    [HideInInspector]
+    public float suspensionForce;
 }
