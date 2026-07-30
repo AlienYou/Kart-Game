@@ -51,6 +51,11 @@ public class KartLateralGrip : MonoBehaviour
             return;
         }
 
+        if (!wheel.grounded)
+        {
+            return;
+        }
+
         Vector3 pointVelocity = rb.GetPointVelocity(wheel.wheelPoint.position);
         Vector3 localPointVelocity = transform.InverseTransformDirection(pointVelocity);
         float lateralSpeed = localPointVelocity.x;

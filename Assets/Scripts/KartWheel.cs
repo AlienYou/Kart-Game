@@ -11,7 +11,8 @@ public class KartWheel
     [Min(0.01f)]
     public float radius = 0.25f;
 
-    [Min(0f)]
+    [Header("悬挂从完全收缩到完全伸展的可移动距离")]
+    [Min(0.01f)]
     public float suspensionLength = 0.30f;
 
     [Header("轮胎类型")]
@@ -26,4 +27,6 @@ public class KartWheel
 
     [HideInInspector]
     public float compression;
+    [HideInInspector]
+    public float currentSuspensionLength;
 }

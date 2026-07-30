@@ -141,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895537759346667796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.4, z: 0.19999999}
+  m_LocalPosition: {x: 0.3, y: 0.5, z: 0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -252,7 +252,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2775098130657517972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.4, z: -0.4}
+  m_LocalPosition: {x: 0.3, y: 0.5, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -478,7 +478,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5229648501414320340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.4, z: 0.19999999}
+  m_LocalPosition: {x: -0.3, y: 0.5, z: 0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 6638867291708800952}
   - component: {fileID: 5729211595964935511}
   - component: {fileID: 2527034371378514943}
+  - component: {fileID: 5546924521011265169}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -552,8 +553,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.58, y: 0.39364898, z: 1.34}
-  m_Center: {x: 0, y: 0.2118245, z: 0}
+  m_Size: {x: 0.58, y: 0.3755731, z: 1.34}
+  m_Center: {x: 0, y: 0.22086245, z: 0}
 --- !u!114 &578044916078627692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +579,7 @@ MonoBehaviour:
     isLeftWheel: 0
     grounded: 0
     compression: 0
+    currentSuspensionLength: 0
   frontRight:
     wheelPoint: {fileID: 8531013529987672229}
     wheelMesh: {fileID: 6715043251392605737}
@@ -587,6 +589,7 @@ MonoBehaviour:
     isLeftWheel: 0
     grounded: 0
     compression: 0
+    currentSuspensionLength: 0
   rearLeft:
     wheelPoint: {fileID: 1935660497745553737}
     wheelMesh: {fileID: 6692103887770806805}
@@ -596,6 +599,7 @@ MonoBehaviour:
     isLeftWheel: 0
     grounded: 0
     compression: 0
+    currentSuspensionLength: 0
   rearRight:
     wheelPoint: {fileID: 744858472518094775}
     wheelMesh: {fileID: 6823943914316237549}
@@ -605,6 +609,7 @@ MonoBehaviour:
     isLeftWheel: 0
     grounded: 0
     compression: 0
+    currentSuspensionLength: 0
   acceleration: 5000
   maxSpeed: 30
   brakeForce: 50
@@ -679,6 +684,24 @@ MonoBehaviour:
   maxLateralAcceleration: 25
   minimumGripSpeed: 0.5
   drawDebugForces: 1
+--- !u!114 &5546924521011265169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839616407555112357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3583fe586a9aa33438e95b59de31d7ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
+  rayStartOffset: 0.02
+  updateWheelVisuals: 1
+  drawDebugRays: 1
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,7 +726,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6074480367393553977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.4, z: -0.4}
+  m_LocalPosition: {x: -0.3, y: 0.5, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
