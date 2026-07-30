@@ -2,7 +2,15 @@ using UnityEngine;
 
 public class KartController : MonoBehaviour
 {
+    [Header("车辆")]
     public Rigidbody rb;
+
+    [Header("四个轮子")]
+    public KartWheel frontLeft;
+    public KartWheel frontRight;
+    public KartWheel rearLeft;
+    public KartWheel rearRight;
+
     public float acceleration = 5000f;
     public float maxSpeed = 30f;
     public Transform centerOfMass;

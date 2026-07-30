@@ -141,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895537759346667796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.20000002, z: 0.19999999}
+  m_LocalPosition: {x: 0.3, y: 0.4, z: 0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -252,7 +252,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2775098130657517972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.20000002, z: -0.4}
+  m_LocalPosition: {x: 0.3, y: 0.4, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -478,7 +478,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5229648501414320340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.20000002, z: 0.19999999}
+  m_LocalPosition: {x: -0.3, y: 0.4, z: 0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -528,7 +528,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5839616407555112357}
   serializedVersion: 2
-  m_Mass: 300
+  m_Mass: 200
   m_Drag: 0.2
   m_AngularDrag: 2
   m_UseGravity: 1
@@ -562,6 +562,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5362658290687079240}
+  frontLeft:
+    wheelPoint: {fileID: 6435606755804638409}
+    wheelMesh: {fileID: 4598690685784158964}
+    radius: 0.25
+    suspensionLength: 0.3
+    grounded: 0
+    compression: 0
+  frontRight:
+    wheelPoint: {fileID: 8531013529987672229}
+    wheelMesh: {fileID: 6715043251392605737}
+    radius: 0.25
+    suspensionLength: 0.3
+    grounded: 0
+    compression: 0
+  rearLeft:
+    wheelPoint: {fileID: 1935660497745553737}
+    wheelMesh: {fileID: 6692103887770806805}
+    radius: 0.25
+    suspensionLength: 0.3
+    grounded: 0
+    compression: 0
+  rearRight:
+    wheelPoint: {fileID: 0}
+    wheelMesh: {fileID: 0}
+    radius: 0.25
+    suspensionLength: 0.3
+    grounded: 0
+    compression: 0
   acceleration: 5000
   maxSpeed: 30
   centerOfMass: {fileID: 7380435664536934847}
@@ -589,7 +617,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6074480367393553977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.20000002, z: -0.4}
+  m_LocalPosition: {x: -0.3, y: 0.4, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
