@@ -2,11 +2,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(KartInput))]
+[RequireComponent(typeof(KartPhysics))]
 public class KartController : MonoBehaviour
 {
     [Header("车辆组件")]
     public Rigidbody rb;
     public KartInput input;
+    public KartPhysics kartPhysics;
 
     [Header("四个轮子")]
     public KartWheel frontLeft;
@@ -19,29 +21,42 @@ public class KartController : MonoBehaviour
     public float maxSpeed = 30f;
     public float brakeForce = 50f;
     public Transform centerOfMass;
-    float moveInput;
-    float steerInput;
-    float forwardSpeed;
-    float sideSpeed;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         input = GetComponent<KartInput>();
+        kartPhysics = GetComponent<KartPhysics>();
+    }
+
+    void ConfigureWheels()
+    {
+        if (frontLeft != null)
+        {
+            frontLeft.isFrontWheel = true;
+            frontRight.isLeftWheel = true;
+        }
+        if (frontRight != null)
+        {
+            frontRight.isFrontWheel = true;
+            frontRight.isLeftWheel = false;
+        }
+        if (rearLeft != null)
+        {
+            rearLeft.isFrontWheel = false;
+            rearLeft.isLeftWheel = true;    
+        }
+        if (rearRight != null)
+        {
+            rearRight.isFrontWheel = false;
+            rearRight.isLeftWheel = false;
+        }
     }
 
     void Start()
     {
         rb.centerOfMass = centerOfMass.localPosition;
     }
-
-    void Update()
-    {
-        moveInput = Input.GetAxis("Vertical");
-        steerInput = Input.GetAxis("Horizontal");
-    }
-
-
 
     void FixedUpdate()
     {

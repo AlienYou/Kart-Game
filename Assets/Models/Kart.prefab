@@ -500,6 +500,7 @@ GameObject:
   - component: {fileID: 7165515947274911348}
   - component: {fileID: 6638867291708800952}
   - component: {fileID: 5729211595964935511}
+  - component: {fileID: 2527034371378514943}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -567,11 +568,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5362658290687079240}
   input: {fileID: 0}
+  kartPhysics: {fileID: 0}
   frontLeft:
     wheelPoint: {fileID: 6435606755804638409}
     wheelMesh: {fileID: 4598690685784158964}
     radius: 0.25
     suspensionLength: 0.3
+    isFrontWheel: 0
+    isLeftWheel: 0
     grounded: 0
     compression: 0
   frontRight:
@@ -579,6 +583,8 @@ MonoBehaviour:
     wheelMesh: {fileID: 6715043251392605737}
     radius: 0.25
     suspensionLength: 0.3
+    isFrontWheel: 0
+    isLeftWheel: 0
     grounded: 0
     compression: 0
   rearLeft:
@@ -586,13 +592,17 @@ MonoBehaviour:
     wheelMesh: {fileID: 6692103887770806805}
     radius: 0.25
     suspensionLength: 0.3
+    isFrontWheel: 0
+    isLeftWheel: 0
     grounded: 0
     compression: 0
   rearRight:
-    wheelPoint: {fileID: 0}
-    wheelMesh: {fileID: 0}
+    wheelPoint: {fileID: 744858472518094775}
+    wheelMesh: {fileID: 6823943914316237549}
     radius: 0.25
     suspensionLength: 0.3
+    isFrontWheel: 0
+    isLeftWheel: 0
     grounded: 0
     compression: 0
   acceleration: 5000
@@ -624,7 +634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxForwardSpeed: 30
-  maxReverseSpeed: 10
+  maxReverseSpeed: 15
   acceleration: 35
 --- !u!114 &6638867291708800952
 MonoBehaviour:
@@ -652,6 +662,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f598e027c55baa84da10b7ad8b883e84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2527034371378514943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839616407555112357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb8a3148a9e92945957a86c5f305bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontGrip: 6
+  rearGrip: 7
+  maxLateralAcceleration: 25
+  minimumGripSpeed: 0.5
+  drawDebugForces: 1
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
