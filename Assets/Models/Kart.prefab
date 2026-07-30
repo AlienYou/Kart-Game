@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 3192688719667424973}
   - component: {fileID: 7165515947274911348}
   - component: {fileID: 6638867291708800952}
+  - component: {fileID: 5729211595964935511}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -623,7 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxForwardSpeed: 30
-  maxReverseSpeed: 8
+  maxReverseSpeed: 10
   acceleration: 35
 --- !u!114 &6638867291708800952
 MonoBehaviour:
@@ -639,6 +640,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSteerAngle: 25
   steerSpeed: 8
+--- !u!114 &5729211595964935511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839616407555112357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f598e027c55baa84da10b7ad8b883e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
