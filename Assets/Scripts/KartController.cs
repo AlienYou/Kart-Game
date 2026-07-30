@@ -1,9 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(KartInput))]
 public class KartController : MonoBehaviour
 {
-    [Header("车辆")]
+    [Header("车辆组件")]
     public Rigidbody rb;
+    public KartInput input;
 
     [Header("四个轮子")]
     public KartWheel frontLeft;
@@ -11,13 +14,21 @@ public class KartController : MonoBehaviour
     public KartWheel rearLeft;
     public KartWheel rearRight;
 
+    [Header("车辆参数")]
     public float acceleration = 5000f;
     public float maxSpeed = 30f;
+    public float brakeForce = 50f;
     public Transform centerOfMass;
     float moveInput;
     float steerInput;
     float forwardSpeed;
     float sideSpeed;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        input = GetComponent<KartInput>();
+    }
 
     void Start()
     {

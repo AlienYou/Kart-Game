@@ -529,14 +529,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5839616407555112357}
   serializedVersion: 2
-  m_Mass: 200
-  m_Drag: 0.2
+  m_Mass: 150
+  m_Drag: 0
   m_AngularDrag: 2
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!65 &3361953075288365178
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -563,6 +563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5362658290687079240}
+  input: {fileID: 0}
   frontLeft:
     wheelPoint: {fileID: 6435606755804638409}
     wheelMesh: {fileID: 4598690685784158964}
@@ -593,6 +594,7 @@ MonoBehaviour:
     compression: 0
   acceleration: 5000
   maxSpeed: 30
+  brakeForce: 50
   centerOfMass: {fileID: 7380435664536934847}
 --- !u!114 &3192688719667424973
 MonoBehaviour:
