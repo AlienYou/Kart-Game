@@ -45,19 +45,19 @@ public class KartController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 force = transform.forward * moveInput * acceleration;
-        rb.AddForce(force);
-        if (rb.velocity.magnitude > maxSpeed)
-        {
-            rb.velocity = rb.velocity.normalized * maxSpeed;
-        }
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        forwardSpeed = localVelocity.z;
-        sideSpeed = localVelocity.x;
-        float steerFactor = 1f - Mathf.Clamp01(Mathf.Abs(forwardSpeed) / maxSpeed);
-        float steerPower = Mathf.Lerp(15, 50, steerFactor);
-        float turn = steerInput * steerPower * Time.fixedDeltaTime;
-        transform.Rotate(0, turn, 0);
+        // Vector3 force = transform.forward * moveInput * acceleration;
+        // rb.AddForce(force);
+        // if (rb.velocity.magnitude > maxSpeed)
+        // {
+        //     rb.velocity = rb.velocity.normalized * maxSpeed;
+        // }
+        // Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        // forwardSpeed = localVelocity.z;
+        // sideSpeed = localVelocity.x;
+        // float steerFactor = 1f - Mathf.Clamp01(Mathf.Abs(forwardSpeed) / maxSpeed);
+        // float steerPower = Mathf.Lerp(15, 50, steerFactor);
+        // float turn = steerInput * steerPower * Time.fixedDeltaTime;
+        // transform.Rotate(0, turn, 0);
     }
 
     void OnDrawGizmos()
