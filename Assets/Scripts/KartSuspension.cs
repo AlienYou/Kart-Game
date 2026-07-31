@@ -123,23 +123,16 @@ public class KartSuspension : MonoBehaviour
 
     private void CalculateAndApplySuspensionForce(KartWheel wheel, Vector3 suspensionUp, float compressionDistance)
     {
-        wheel.suspensionVelocity = (wheel.previousSuspensionLength - wheel.currentSuspensionLength) / Time.fixedDeltaTime;
+        float suspensionPointSpeed = Vector3.Dot(rb.GetPointVelocity(wheel.wheelPoint.position), suspensionUp);
 
         float springForce = compressionDistance * springStrength;
+        float damperForce = -suspensionPointSpeed * damperStrength;
+        float totalForce = Mathf.Clamp(springForce + damperForce, 0f, maxSuspensionForce);
 
-        float damperForce = wheel.suspensionVelocity * damperStrength;
-
-        float totalForce = springForce + damperForce;
-
-        /*
-         * 悬挂只能推动车身，不能把车身向下吸。
-         */
-        totalForce = Mathf.Clamp(totalForce, 0f, maxSuspensionForce);
-
+        wheel.suspensionVelocity = suspensionPointSpeed;
         wheel.suspensionForce = totalForce;
 
         Vector3 force = suspensionUp * totalForce;
-
         rb.AddForceAtPosition(force, wheel.wheelPoint.position, ForceMode.Force);
 
         if (drawDebugForces)

@@ -75,25 +75,28 @@ public class KartLateralGrip : MonoBehaviour
         Vector3 wheelRight = steerRotation * transform.right;
         Vector3 wheelForward = steerRotation * transform.forward;
 
-        Vector3 pointVelocity = rb.GetPointVelocity(wheel.wheelPoint.position);
+        Vector3 pointVelocity = rb.GetPointVelocity(wheel.hit.point);
         float lateralSpeed = Vector3.Dot(pointVelocity, wheelRight);
         float forwardSpeed = Vector3.Dot(pointVelocity, wheelForward);
 
         if (Mathf.Abs(forwardSpeed) < lowSpeedThreshold && Mathf.Abs(lateralSpeed) < lowSpeedLateralThreshold)
         {
             Vector3 stopForce = -wheelRight * lateralSpeed * rb.mass * lowSpeedGrip * 0.25f;
-            rb.AddForceAtPosition(stopForce, wheel.wheelPoint.position, ForceMode.Force);
+            rb.AddForceAtPosition(stopForce, wheel.hit.point, ForceMode.Force);
             return;
         }
 
         float lateralAcceleration = Mathf.Clamp(-lateralSpeed * grip, -maxLateralAcceleration, maxLateralAcceleration);
         Vector3 lateralForce = wheelRight * lateralAcceleration * rb.mass * 0.25f;
 
-        rb.AddForceAtPosition(lateralForce, wheel.wheelPoint.position, ForceMode.Force);
+        float maximumTireForce = wheel.suspensionForce * 1.4f;
+        lateralForce = Vector3.ClampMagnitude(lateralForce, maximumTireForce);
+
+        rb.AddForceAtPosition(lateralForce, wheel.hit.point, ForceMode.Force);
 
         if (drawDebugForces)
         {
-            Debug.DrawRay(wheel.wheelPoint.position, lateralForce / rb.mass * 0.1f, wheel.isFrontWheel ? Color.cyan : Color.magenta);
+            Debug.DrawRay(wheel.hit.point, lateralForce / rb.mass * 0.1f, wheel.isFrontWheel ? Color.cyan : Color.magenta);
             Debug.DrawRay(wheel.wheelPoint.position, wheelForward * 0.5f, Color.blue);
         }
     }

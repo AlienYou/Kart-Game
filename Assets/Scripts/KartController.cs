@@ -9,6 +9,7 @@ public class KartController : MonoBehaviour
     public Rigidbody rb;
     public KartInput input;
     public KartPhysics kartPhysics;
+    public Transform centerOfMass;
 
     [Header("四个轮子")]
     public KartWheel frontLeft;
@@ -16,37 +17,41 @@ public class KartController : MonoBehaviour
     public KartWheel rearLeft;
     public KartWheel rearRight;
 
-    [Header("车辆参数")]
-    public float acceleration = 5000f;
+    [Header("车辆基础参数")]
     public float maxSpeed = 30f;
+    public float acceleration = 40f;
     public float brakeForce = 50f;
-    public Transform centerOfMass;
 
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         input = GetComponent<KartInput>();
         kartPhysics = GetComponent<KartPhysics>();
+
         ConfigureWheels();
+        ConfigureCenterOfMass();
     }
 
-    void ConfigureWheels()
+    private void ConfigureWheels()
     {
         if (frontLeft != null)
         {
             frontLeft.isFrontWheel = true;
-            frontRight.isLeftWheel = true;
+            frontLeft.isLeftWheel = true;
         }
+
         if (frontRight != null)
         {
             frontRight.isFrontWheel = true;
             frontRight.isLeftWheel = false;
         }
+
         if (rearLeft != null)
         {
             rearLeft.isFrontWheel = false;
-            rearLeft.isLeftWheel = true;    
+            rearLeft.isLeftWheel = true;
         }
+
         if (rearRight != null)
         {
             rearRight.isFrontWheel = false;
@@ -54,35 +59,22 @@ public class KartController : MonoBehaviour
         }
     }
 
-    void Start()
+    private void ConfigureCenterOfMass()
     {
-        rb.centerOfMass = centerOfMass.localPosition;
+        if (centerOfMass != null)
+        {
+            rb.centerOfMass = centerOfMass.localPosition;
+        }
     }
 
-    void FixedUpdate()
-    {
-        // Vector3 force = transform.forward * moveInput * acceleration;
-        // rb.AddForce(force);
-        // if (rb.velocity.magnitude > maxSpeed)
-        // {
-        //     rb.velocity = rb.velocity.normalized * maxSpeed;
-        // }
-        // Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        // forwardSpeed = localVelocity.z;
-        // sideSpeed = localVelocity.x;
-        // float steerFactor = 1f - Mathf.Clamp01(Mathf.Abs(forwardSpeed) / maxSpeed);
-        // float steerPower = Mathf.Lerp(15, 50, steerFactor);
-        // float turn = steerInput * steerPower * Time.fixedDeltaTime;
-        // transform.Rotate(0, turn, 0);
-    }
-
-    void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (centerOfMass == null)
         {
             return;
         }
+
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(centerOfMass.position, 0.08f);
+        Gizmos.DrawSphere(centerOfMass.position, 0.06f);
     }
 }

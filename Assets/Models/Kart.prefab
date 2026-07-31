@@ -172,7 +172,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895537759346667796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.5, z: 0.19999999}
+  m_LocalPosition: {x: 0.3, y: 0.4, z: 0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -283,7 +283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2775098130657517972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.5, z: -0.4}
+  m_LocalPosition: {x: 0.3, y: 0.4, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -602,7 +602,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5229648501414320340}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.5, z: 0.19999999}
+  m_LocalPosition: {x: -0.3, y: 0.4, z: 0.19999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -627,6 +627,7 @@ GameObject:
   - component: {fileID: 2527034371378514943}
   - component: {fileID: 5546924521011265169}
   - component: {fileID: 7836526952964836911}
+  - component: {fileID: 6273778521849858741}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -665,7 +666,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 2
 --- !u!65 &3361953075288365178
 BoxCollider:
@@ -695,6 +696,7 @@ MonoBehaviour:
   rb: {fileID: 5362658290687079240}
   input: {fileID: 0}
   kartPhysics: {fileID: 0}
+  centerOfMass: {fileID: 7380435664536934847}
   frontLeft:
     wheelPoint: {fileID: 6435606755804638409}
     wheelVisualRoot: {fileID: 3824560701820072631}
@@ -763,10 +765,9 @@ MonoBehaviour:
     suspensionForce: 0
     visualRotationAngle: 0
     wheelMeshBaseRotation: {x: 0, y: 0, z: 0, w: 0}
-  acceleration: 5000
   maxSpeed: 30
+  acceleration: 5000
   brakeForce: 50
-  centerOfMass: {fileID: 7380435664536934847}
 --- !u!114 &3192688719667424973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,11 +838,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontGrip: 6
   rearGrip: 5.5
-  maxLateralAcceleration: 30
-  maxSteerAngle: 32
-  highSpeedSteerFactor: 0.7
+  maxLateralAcceleration: 12
+  maxSteerAngle: 36
+  highSpeedSteerFactor: 0.75
   steeringReferenceSpeed: 25
-  steerResponse: 8
+  steerResponse: 4
   lowSpeedThreshold: 0.5
   lowSpeedLateralThreshold: 0.6
   lowSpeedGrip: 4
@@ -863,8 +864,8 @@ MonoBehaviour:
     m_Bits: 256
   rayStartOffset: 0.02
   springStrength: 12000
-  damperStrength: 1800
-  maxSuspensionForce: 12000
+  damperStrength: 2200
+  maxSuspensionForce: 6000
   updateWheelVisuals: 1
   drawDebugRays: 1
   drawDebugForces: 1
@@ -882,6 +883,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steerVisualMultiplier: 1
   rotationSpeedMultiplier: 1
+--- !u!114 &6273778521849858741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839616407555112357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 953f57d0966f6b04eb1826cb0250129a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pitchDamping: 2.5
+  rollDamping: 3.5
+  assistStartAngle: 18
+  uprightStrength: 5
+  dangerAngle: 35
+  dangerMultiplier: 2
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,7 +925,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6074480367393553977}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3, y: 0.5, z: -0.4}
+  m_LocalPosition: {x: -0.3, y: 0.4, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8925933598467350868}
@@ -1017,7 +1036,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8676981846481227135}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.20000002, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7550028905719886286}
