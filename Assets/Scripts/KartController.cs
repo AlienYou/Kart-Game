@@ -27,6 +27,7 @@ public class KartController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         input = GetComponent<KartInput>();
         kartPhysics = GetComponent<KartPhysics>();
+        ConfigureWheels();
     }
 
     void ConfigureWheels()

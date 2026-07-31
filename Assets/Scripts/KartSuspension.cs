@@ -150,18 +150,22 @@ public class KartSuspension : MonoBehaviour
 
     private void UpdateGroundedWheelVisual(KartWheel wheel)
     {
-        if (wheel.wheelMesh == null)
+        if (wheel.wheelVisualRoot == null)
+        {
             return;
+        }
 
-        wheel.wheelMesh.position = wheel.hit.point + wheel.hit.normal * wheel.radius;
+            wheel.wheelVisualRoot.position = wheel.hit.point + wheel.hit.normal * wheel.radius;
     }
 
     private void UpdateAirborneWheelVisual(KartWheel wheel, Vector3 suspensionUp)
     {
-        if (wheel.wheelMesh == null)
+        if (wheel.wheelVisualRoot == null)
+        {
             return;
+        }
 
-        wheel.wheelMesh.position = wheel.wheelPoint.position - suspensionUp * wheel.suspensionLength;
+        wheel.wheelVisualRoot.position = wheel.wheelPoint.position - suspensionUp * wheel.suspensionLength;
     }
 
     private void DrawWheelRay(Vector3 origin, Vector3 direction, float length, bool hasHit, RaycastHit hit)
