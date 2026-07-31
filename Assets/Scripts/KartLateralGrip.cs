@@ -1,78 +1,100 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(KartController))]
 [RequireComponent(typeof(KartPhysics))]
+[RequireComponent(typeof(KartInput))]
 public class KartLateralGrip : MonoBehaviour
 {
-    [Header("前后轮抓地力")]
-    [Tooltip("前轮横向抓地系数")]
+    [Header("抓地力")]
     public float frontGrip = 6f;
+    public float rearGrip = 5.5f;
+    public float maxLateralAcceleration = 30f;
 
-    [Tooltip("后轮横向抓地系数")]
-    public float rearGrip = 7f;
+    [Header("转向")]
+    public float maxSteerAngle = 32f;
+    public float highSpeedSteerFactor = 0.7f;
+    public float steeringReferenceSpeed = 25f;
+    public float steerResponse = 8f;
 
-    [Header("抓地力限制")]
-    [Tooltip("单个轮胎允许施加的最大侧向加速度")]
-    public float maxLateralAcceleration = 25f;
-
-    [Header("低速处理")]
-    [Tooltip("低于该速度时降低横向力，避免停车时抖动")]
-    public float minimumGripSpeed = 0.5f;
+    [Header("低速稳定")]
+    public float lowSpeedThreshold = 0.5f;
+    public float lowSpeedLateralThreshold = 0.6f;
+    public float lowSpeedGrip = 4f;
 
     [Header("调试")]
     public bool drawDebugForces = true;
 
-    Rigidbody rb;
-    KartController controller;
-    KartPhysics kartPhysics;
+    public float CurrentSteerAngle { get; private set; }
 
-    void Awake()
+    private Rigidbody rb;
+    private KartController controller;
+    private KartPhysics kartPhysics;
+    private KartInput input;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         controller = GetComponent<KartController>();
         kartPhysics = GetComponent<KartPhysics>();
+        input = GetComponent<KartInput>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        ApplyWheelLateralForce(controller.frontLeft, frontGrip);
-        ApplyWheelLateralForce(controller.frontRight, frontGrip);
-        ApplyWheelLateralForce(controller.rearLeft, rearGrip);
-        ApplyWheelLateralForce(controller.rearRight, rearGrip);
+        UpdateSteerAngle();
+
+        ApplyWheelLateralForce(controller.frontLeft, frontGrip, CurrentSteerAngle);
+        ApplyWheelLateralForce(controller.frontRight, frontGrip, CurrentSteerAngle);
+        ApplyWheelLateralForce(controller.rearLeft, rearGrip, 0f);
+        ApplyWheelLateralForce(controller.rearRight, rearGrip, 0f);
     }
 
-    void ApplyWheelLateralForce(KartWheel wheel, float grip)
+    private void UpdateSteerAngle()
     {
-        if (wheel == null || wheel.wheelPoint == null)
+        float speedRatio = Mathf.Clamp01(Mathf.Abs(kartPhysics.ForwardSpeed) / steeringReferenceSpeed);
+        float steerFactor = Mathf.Lerp(1f, highSpeedSteerFactor, speedRatio);
+        float targetAngle = input.Steering * maxSteerAngle * steerFactor;
+
+        if (kartPhysics.ForwardSpeed < -0.1f)
+        {
+            targetAngle *= -1f;
+        }
+
+        CurrentSteerAngle = Mathf.Lerp(CurrentSteerAngle, targetAngle, steerResponse * Time.fixedDeltaTime);
+    }
+
+    private void ApplyWheelLateralForce(KartWheel wheel, float grip, float steerAngle)
+    {
+        if (wheel == null || wheel.wheelPoint == null || !wheel.grounded)
         {
             return;
         }
 
-        if (!wheel.grounded)
-        {
-            return;
-        }
+        Quaternion steerRotation = Quaternion.AngleAxis(steerAngle, transform.up);
+        Vector3 wheelRight = steerRotation * transform.right;
+        Vector3 wheelForward = steerRotation * transform.forward;
 
         Vector3 pointVelocity = rb.GetPointVelocity(wheel.wheelPoint.position);
-        Vector3 localPointVelocity = transform.InverseTransformDirection(pointVelocity);
-        float lateralSpeed = localPointVelocity.x;
-        if (Mathf.Abs(localPointVelocity.z) < minimumGripSpeed && Mathf.Abs(lateralSpeed) < minimumGripSpeed)
+        float lateralSpeed = Vector3.Dot(pointVelocity, wheelRight);
+        float forwardSpeed = Vector3.Dot(pointVelocity, wheelForward);
+
+        if (Mathf.Abs(forwardSpeed) < lowSpeedThreshold && Mathf.Abs(lateralSpeed) < lowSpeedLateralThreshold)
         {
+            Vector3 stopForce = -wheelRight * lateralSpeed * rb.mass * lowSpeedGrip * 0.25f;
+            rb.AddForceAtPosition(stopForce, wheel.wheelPoint.position, ForceMode.Force);
             return;
         }
 
-        float lateralAcceleration = -lateralSpeed * grip;
-        lateralAcceleration = Mathf.Clamp(lateralAcceleration, -maxLateralAcceleration, maxLateralAcceleration);
+        float lateralAcceleration = Mathf.Clamp(-lateralSpeed * grip, -maxLateralAcceleration, maxLateralAcceleration);
+        Vector3 lateralForce = wheelRight * lateralAcceleration * rb.mass * 0.25f;
 
-        Vector3 lateralForce = transform.right * lateralAcceleration * rb.mass * 0.25f;
-        rb.AddForceAtPosition(lateralForce, wheel.wheelPoint.position);
+        rb.AddForceAtPosition(lateralForce, wheel.wheelPoint.position, ForceMode.Force);
 
         if (drawDebugForces)
         {
-            Debug.DrawRay(wheel.wheelPoint.position, lateralForce / rb.mass * 0.1f, Color.cyan);
+            Debug.DrawRay(wheel.wheelPoint.position, lateralForce / rb.mass * 0.1f, wheel.isFrontWheel ? Color.cyan : Color.magenta);
+            Debug.DrawRay(wheel.wheelPoint.position, wheelForward * 0.5f, Color.blue);
         }
     }
 }

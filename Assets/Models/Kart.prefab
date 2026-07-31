@@ -62,7 +62,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654587294289650885}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.27737227, y: -0.1674506, z: -0.47260836}
+  m_LocalPosition: {x: -0.3, y: -0.2, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9198865712705840449}
@@ -318,7 +318,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4171231279230475782}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.27737227, y: -0.1674506, z: 0.21173197}
+  m_LocalPosition: {x: 0.3, y: -0.2, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9198865712705840449}
@@ -399,7 +399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4883908923412667412}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.27737227, y: -0.1674506, z: -0.47260836}
+  m_LocalPosition: {x: 0.3, y: -0.2, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9198865712705840449}
@@ -580,6 +580,9 @@ MonoBehaviour:
     grounded: 0
     compression: 0
     currentSuspensionLength: 0
+    previousSuspensionLength: 0
+    suspensionVelocity: 0
+    suspensionForce: 0
   frontRight:
     wheelPoint: {fileID: 8531013529987672229}
     wheelMesh: {fileID: 6715043251392605737}
@@ -590,6 +593,9 @@ MonoBehaviour:
     grounded: 0
     compression: 0
     currentSuspensionLength: 0
+    previousSuspensionLength: 0
+    suspensionVelocity: 0
+    suspensionForce: 0
   rearLeft:
     wheelPoint: {fileID: 1935660497745553737}
     wheelMesh: {fileID: 6692103887770806805}
@@ -600,6 +606,9 @@ MonoBehaviour:
     grounded: 0
     compression: 0
     currentSuspensionLength: 0
+    previousSuspensionLength: 0
+    suspensionVelocity: 0
+    suspensionForce: 0
   rearRight:
     wheelPoint: {fileID: 744858472518094775}
     wheelMesh: {fileID: 6823943914316237549}
@@ -610,6 +619,9 @@ MonoBehaviour:
     grounded: 0
     compression: 0
     currentSuspensionLength: 0
+    previousSuspensionLength: 0
+    suspensionVelocity: 0
+    suspensionForce: 0
   acceleration: 5000
   maxSpeed: 30
   brakeForce: 50
@@ -639,7 +651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxForwardSpeed: 30
-  maxReverseSpeed: 15
+  maxReverseSpeed: 10
   acceleration: 35
 --- !u!114 &6638867291708800952
 MonoBehaviour:
@@ -648,13 +660,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5839616407555112357}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02811fec2b69ea3498d7fcf51c997018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSteerAngle: 25
-  steerSpeed: 8
+  highSpeedSteerFactor: 0.6
+  steeringReferenceSpeed: 25
+  yawSpeed: 95
+  reverseSteeringWhenBacking: 1
 --- !u!114 &5729211595964935511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,9 +695,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frontGrip: 6
-  rearGrip: 7
-  maxLateralAcceleration: 25
-  minimumGripSpeed: 0.5
+  rearGrip: 5.5
+  maxLateralAcceleration: 30
+  maxSteerAngle: 32
+  highSpeedSteerFactor: 0.7
+  steeringReferenceSpeed: 25
+  steerResponse: 8
+  lowSpeedThreshold: 0.5
+  lowSpeedLateralThreshold: 0.6
+  lowSpeedGrip: 4
   drawDebugForces: 1
 --- !u!114 &5546924521011265169
 MonoBehaviour:
@@ -700,8 +721,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   rayStartOffset: 0.02
+  springStrength: 12000
+  damperStrength: 1800
+  maxSuspensionForce: 12000
   updateWheelVisuals: 1
   drawDebugRays: 1
+  drawDebugForces: 1
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,7 +783,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7309454909821602124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.27737227, y: -0.1674506, z: 0.21173197}
+  m_LocalPosition: {x: -0.3, y: -0.2, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9198865712705840449}

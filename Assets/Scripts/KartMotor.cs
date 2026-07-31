@@ -34,22 +34,31 @@ public class KartMotor : MonoBehaviour
     {
         float throttle = input.Throttle;
 
-        // 当前前向速度
-        float currentSpeed = Vector3.Dot(rb.velocity, transform.forward);
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
 
-        // 根据输入决定目标速度
+        float currentForwardSpeed = localVelocity.z;
+
+        // 没有油门，并且车辆已接近静止
+        if (Mathf.Abs(throttle) < 0.01f && Mathf.Abs(currentForwardSpeed) < 0.1f && Mathf.Abs(localVelocity.x) < 0.05f)
+        {
+            Vector3 horizontalVelocity = Vector3.ProjectOnPlane(rb.velocity, transform.up);
+            rb.velocity -= horizontalVelocity;
+            return;
+        }
+
         float targetSpeed = 0f;
 
-        if (throttle > 0)
+        if (throttle > 0f)
+        {
             targetSpeed = maxForwardSpeed;
-
-        if (throttle < 0)
+        }
+        else if (throttle < 0f)
+        {
             targetSpeed = -maxReverseSpeed;
+        }
 
-        // 当前需要补多少速度
-        float speedError = targetSpeed - currentSpeed;
+        float speedError = targetSpeed - currentForwardSpeed;
 
-        // 计算需要施加的加速度
         float accel = Mathf.Clamp(speedError, -acceleration, acceleration);
 
         rb.AddForce(transform.forward * accel * rb.mass, ForceMode.Force);
