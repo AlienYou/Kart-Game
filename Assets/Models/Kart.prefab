@@ -793,9 +793,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2b012e255bb9742a8e8244b610710f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxForwardSpeed: 30
-  maxReverseSpeed: 10
-  acceleration: 35
+  maxForwardSpeed: 25
+  forwardAcceleration: 8
+  maxReverseSpeed: 8
+  reverseAcceleration: 5
+  brakeAcceleration: 18
+  reverseEnterSpeed: 0.5
+  rollingResistance: 1.2
+  airResistance: 0.015
+  stopSpeedThreshold: 0.12
+  stopLateralThreshold: 0.08
+  showDebugInfo: 1
 --- !u!114 &6638867291708800952
 MonoBehaviour:
   m_ObjectHideFlags: 0
