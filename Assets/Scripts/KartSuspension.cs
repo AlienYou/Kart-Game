@@ -202,5 +202,11 @@ public class KartSuspension : MonoBehaviour
             $"RR Grounded: {controller.rearRight.grounded}  " +
             $"Compression: {controller.rearRight.compression:F2}"
         );
+
+        GUI.Label(new Rect(20, 180, 600, 25),
+        $"FL Force:{controller.frontLeft.suspensionForce:F0}  FR Force:{controller.frontRight.suspensionForce:F0}");
+
+        GUI.Label(new Rect(20, 195, 600, 25),
+            $"RL Force:{controller.rearLeft.suspensionForce:F0}  RR Force:{controller.rearRight.suspensionForce:F0}");
     }
 }

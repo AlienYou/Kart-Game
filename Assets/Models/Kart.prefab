@@ -628,6 +628,7 @@ GameObject:
   - component: {fileID: 5546924521011265169}
   - component: {fileID: 7836526952964836911}
   - component: {fileID: 6273778521849858741}
+  - component: {fileID: 8287005849080511530}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -896,11 +897,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pitchDamping: 2.5
-  rollDamping: 3.5
-  assistStartAngle: 18
-  uprightStrength: 5
+  rollDamping: 1.5
+  assistStartAngle: 22
+  uprightStrength: 4
   dangerAngle: 35
   dangerMultiplier: 2
+--- !u!114 &8287005849080511530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839616407555112357}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7779e8cb516f30419b771e963666de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontAntiRollStrength: 2500
+  rearAntiRollStrength: 2000
+  drawDebugForces: 1
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
