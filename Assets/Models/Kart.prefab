@@ -799,11 +799,15 @@ MonoBehaviour:
   reverseAcceleration: 5
   brakeAcceleration: 18
   reverseEnterSpeed: 0.5
-  rollingResistance: 1.2
-  airResistance: 0.015
+  frontBrakeRatio: 0.6
+  driveGripCoefficient: 1.3
+  brakeGripCoefficient: 1.5
+  rollingResistance: 0.5
+  airResistance: 0.0025
   stopSpeedThreshold: 0.12
   stopLateralThreshold: 0.08
   showDebugInfo: 1
+  drawDebugForces: 1
 --- !u!114 &6638867291708800952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,12 +849,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb8a3148a9e92945957a86c5f305bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frontGrip: 6
-  rearGrip: 5.5
-  maxLateralAcceleration: 12
-  maxSteerAngle: 36
-  highSpeedSteerFactor: 0.75
-  steeringReferenceSpeed: 25
+  frontGrip: 5
+  rearGrip: 4.5
+  maxLateralAcceleration: 10
+  maxSteerAngle: 32
+  highSpeedSteerFactor: 0.65
+  steeringReferenceSpeed: 18
   steerResponse: 4
   lowSpeedThreshold: 0.5
   lowSpeedLateralThreshold: 0.6
