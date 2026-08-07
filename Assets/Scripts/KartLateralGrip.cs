@@ -35,6 +35,7 @@ public class KartLateralGrip : MonoBehaviour
     private KartController controller;
     private KartPhysics kartPhysics;
     private KartInput input;
+    private KartDrift drift;
 
     private void Awake()
     {
@@ -42,16 +43,43 @@ public class KartLateralGrip : MonoBehaviour
         controller = GetComponent<KartController>();
         kartPhysics = GetComponent<KartPhysics>();
         input = GetComponent<KartInput>();
+        drift = GetComponent<KartDrift>();
     }
 
     private void FixedUpdate()
     {
         UpdateSteerAngle();
 
-        ApplyWheelLateralForce(controller.frontLeft, frontGrip, CurrentSteerAngle);
-        ApplyWheelLateralForce(controller.frontRight, frontGrip, CurrentSteerAngle);
-        ApplyWheelLateralForce(controller.rearLeft, rearGrip, 0f);
-        ApplyWheelLateralForce(controller.rearRight, rearGrip, 0f);
+        float currentRearGrip = rearGrip;
+
+        if (drift != null)
+        {
+            currentRearGrip *= drift.RearGripMultiplier;
+        }
+
+        ApplyWheelLateralForce(
+            controller.frontLeft,
+            frontGrip,
+            CurrentSteerAngle
+        );
+
+        ApplyWheelLateralForce(
+            controller.frontRight,
+            frontGrip,
+            CurrentSteerAngle
+        );
+
+        ApplyWheelLateralForce(
+            controller.rearLeft,
+            currentRearGrip,
+            0f
+        );
+
+        ApplyWheelLateralForce(
+            controller.rearRight,
+            currentRearGrip,
+            0f
+        );
     }
 
     private void UpdateSteerAngle()

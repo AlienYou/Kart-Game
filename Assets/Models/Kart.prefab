@@ -629,6 +629,7 @@ GameObject:
   - component: {fileID: 7836526952964836911}
   - component: {fileID: 6273778521849858741}
   - component: {fileID: 8287005849080511530}
+  - component: {fileID: 4927306287508625062}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -715,6 +716,11 @@ MonoBehaviour:
     suspensionForce: 0
     visualRotationAngle: 0
     wheelMeshBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    wheelVisualRootBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    lateralGripUsage: 0
+    longitudinalGripUsage: 0
+    appliedLateralForce: {x: 0, y: 0, z: 0}
+    appliedLongitudinalForce: {x: 0, y: 0, z: 0}
   frontRight:
     wheelPoint: {fileID: 8531013529987672229}
     wheelVisualRoot: {fileID: 7644226526305346217}
@@ -732,6 +738,11 @@ MonoBehaviour:
     suspensionForce: 0
     visualRotationAngle: 0
     wheelMeshBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    wheelVisualRootBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    lateralGripUsage: 0
+    longitudinalGripUsage: 0
+    appliedLateralForce: {x: 0, y: 0, z: 0}
+    appliedLongitudinalForce: {x: 0, y: 0, z: 0}
   rearLeft:
     wheelPoint: {fileID: 1935660497745553737}
     wheelVisualRoot: {fileID: 5494189993180991475}
@@ -749,6 +760,11 @@ MonoBehaviour:
     suspensionForce: 0
     visualRotationAngle: 0
     wheelMeshBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    wheelVisualRootBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    lateralGripUsage: 0
+    longitudinalGripUsage: 0
+    appliedLateralForce: {x: 0, y: 0, z: 0}
+    appliedLongitudinalForce: {x: 0, y: 0, z: 0}
   rearRight:
     wheelPoint: {fileID: 744858472518094775}
     wheelVisualRoot: {fileID: 257784355930448535}
@@ -766,6 +782,11 @@ MonoBehaviour:
     suspensionForce: 0
     visualRotationAngle: 0
     wheelMeshBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    wheelVisualRootBaseRotation: {x: 0, y: 0, z: 0, w: 0}
+    lateralGripUsage: 0
+    longitudinalGripUsage: 0
+    appliedLateralForce: {x: 0, y: 0, z: 0}
+    appliedLongitudinalForce: {x: 0, y: 0, z: 0}
   maxSpeed: 30
   acceleration: 5000
   brakeForce: 50
@@ -852,6 +873,7 @@ MonoBehaviour:
   frontGrip: 5
   rearGrip: 4.5
   maxLateralAcceleration: 10
+  tireGripCoefficient: 1.4
   maxSteerAngle: 32
   highSpeedSteerFactor: 0.65
   steeringReferenceSpeed: 18
@@ -929,6 +951,26 @@ MonoBehaviour:
   frontAntiRollStrength: 2500
   rearAntiRollStrength: 2000
   drawDebugForces: 1
+--- !u!114 &4927306287508625062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839616407555112357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3a0f7ad699bb4449e1fd45c761839a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minimumDriftSpeed: 5
+  minimumSteeringInput: 0.25
+  driftingRearGripMultiplier: 0.45
+  gripEnterSpeed: 8
+  gripExitSpeed: 5
+  yawAssistAcceleration: 5
+  maxYawAssistAcceleration: 8
+  showDebugInfo: 1
 --- !u!1 &6074480367393553977
 GameObject:
   m_ObjectHideFlags: 0
