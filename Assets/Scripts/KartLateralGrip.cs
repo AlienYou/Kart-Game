@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(KartController))]
 [RequireComponent(typeof(KartPhysics))]
@@ -10,6 +11,9 @@ public class KartLateralGrip : MonoBehaviour
     public float frontGrip = 6f;
     public float rearGrip = 5.5f;
     public float maxLateralAcceleration = 30f;
+
+    [Header("轮胎总抓地")]
+    public float tireGripCoefficient = 1.4f;
 
     [Header("转向")]
     public float maxSteerAngle = 32f;
@@ -66,7 +70,15 @@ public class KartLateralGrip : MonoBehaviour
 
     private void ApplyWheelLateralForce(KartWheel wheel, float grip, float steerAngle)
     {
-        if (wheel == null || wheel.wheelPoint == null || !wheel.grounded)
+        if (wheel == null || wheel.wheelPoint == null)
+        {
+            return;
+        }
+
+        wheel.lateralGripUsage = 0f;
+        wheel.appliedLateralForce = Vector3.zero;
+
+        if (!wheel.grounded)
         {
             return;
         }
@@ -79,25 +91,59 @@ public class KartLateralGrip : MonoBehaviour
         float lateralSpeed = Vector3.Dot(pointVelocity, wheelRight);
         float forwardSpeed = Vector3.Dot(pointVelocity, wheelForward);
 
-        if (Mathf.Abs(forwardSpeed) < lowSpeedThreshold && Mathf.Abs(lateralSpeed) < lowSpeedLateralThreshold)
+        if (Mathf.Abs(forwardSpeed) < lowSpeedThreshold &&
+            Mathf.Abs(lateralSpeed) < lowSpeedLateralThreshold)
         {
             Vector3 stopForce = -wheelRight * lateralSpeed * rb.mass * lowSpeedGrip * 0.25f;
+
+            float maximumTireForce = wheel.suspensionForce * tireGripCoefficient;
+            stopForce = Vector3.ClampMagnitude(stopForce, maximumTireForce);
+
             rb.AddForceAtPosition(stopForce, wheel.hit.point, ForceMode.Force);
+
+            wheel.appliedLateralForce = stopForce;
+            wheel.lateralGripUsage = CalculateGripUsage(stopForce.magnitude, maximumTireForce);
             return;
         }
 
-        float lateralAcceleration = Mathf.Clamp(-lateralSpeed * grip, -maxLateralAcceleration, maxLateralAcceleration);
-        Vector3 lateralForce = wheelRight * lateralAcceleration * rb.mass * 0.25f;
+        float lateralAcceleration = Mathf.Clamp(
+            -lateralSpeed * grip,
+            -maxLateralAcceleration,
+            maxLateralAcceleration
+        );
 
-        float maximumTireForce = wheel.suspensionForce * 1.4f;
-        lateralForce = Vector3.ClampMagnitude(lateralForce, maximumTireForce);
+        Vector3 requestedForce = wheelRight * lateralAcceleration * rb.mass * 0.25f;
+        float maximumGripForce = wheel.suspensionForce * tireGripCoefficient;
+        Vector3 actualForce = Vector3.ClampMagnitude(requestedForce, maximumGripForce);
 
-        rb.AddForceAtPosition(lateralForce, wheel.hit.point, ForceMode.Force);
+        rb.AddForceAtPosition(actualForce, wheel.hit.point, ForceMode.Force);
+
+        wheel.appliedLateralForce = actualForce;
+        wheel.lateralGripUsage = CalculateGripUsage(actualForce.magnitude, maximumGripForce);
 
         if (drawDebugForces)
         {
-            Debug.DrawRay(wheel.hit.point, lateralForce / rb.mass * 0.1f, wheel.isFrontWheel ? Color.cyan : Color.magenta);
-            Debug.DrawRay(wheel.wheelPoint.position, wheelForward * 0.5f, Color.blue);
+            Debug.DrawRay(
+                wheel.hit.point,
+                actualForce / rb.mass * 0.1f,
+                wheel.isFrontWheel ? Color.cyan : Color.magenta
+            );
+
+            Debug.DrawRay(
+                wheel.wheelPoint.position,
+                wheelForward * 0.5f,
+                Color.blue
+            );
         }
+    }
+
+    private float CalculateGripUsage(float forceMagnitude, float maximumGripForce)
+    {
+        if (maximumGripForce <= 0.001f)
+        {
+            return 0f;
+        }
+
+        return Mathf.Clamp01(forceMagnitude / maximumGripForce);
     }
 }

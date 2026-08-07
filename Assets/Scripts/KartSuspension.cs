@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-200)]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(KartController))]
 public class KartSuspension : MonoBehaviour

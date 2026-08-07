@@ -36,4 +36,10 @@ public class KartWheel
     [HideInInspector] public float suspensionForce;
     [HideInInspector] public float visualRotationAngle;
     [HideInInspector] public Quaternion wheelMeshBaseRotation;
+    [HideInInspector] public Quaternion wheelVisualRootBaseRotation;
+
+    [HideInInspector] public float lateralGripUsage;
+    [HideInInspector] public float longitudinalGripUsage;
+    [HideInInspector] public Vector3 appliedLateralForce;
+    [HideInInspector] public Vector3 appliedLongitudinalForce;
 }

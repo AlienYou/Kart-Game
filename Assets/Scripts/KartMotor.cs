@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-50)]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(KartInput))]
 [RequireComponent(typeof(KartPhysics))]
@@ -56,6 +57,7 @@ public class KartMotor : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ResetLongitudinalGripData();
         UpdateDrivingState();
         ApplyDriveForce();
         ApplyNaturalResistance();
@@ -246,10 +248,10 @@ public class KartMotor : MonoBehaviour
     }
 
     private void ApplyLongitudinalForceToWheel(
-        KartWheel wheel,
-        Vector3 requestedForce,
-        float gripCoefficient,
-        Color debugColor)
+    KartWheel wheel,
+    Vector3 requestedForce,
+    float gripCoefficient,
+    Color debugColor)
     {
         if (!IsWheelGrounded(wheel))
         {
@@ -257,9 +259,31 @@ public class KartMotor : MonoBehaviour
         }
 
         float maximumTireForce = wheel.suspensionForce * gripCoefficient;
-        Vector3 actualForce = Vector3.ClampMagnitude(requestedForce, maximumTireForce);
+
+        float lateralUsage = Mathf.Clamp01(wheel.lateralGripUsage);
+        float remainingGripRatio = Mathf.Sqrt(
+            Mathf.Max(0f, 1f - lateralUsage * lateralUsage)
+        );
+
+        float availableLongitudinalForce = maximumTireForce * remainingGripRatio;
+        Vector3 actualForce = Vector3.ClampMagnitude(
+            requestedForce,
+            availableLongitudinalForce
+        );
 
         rb.AddForceAtPosition(actualForce, wheel.hit.point, ForceMode.Force);
+
+        wheel.appliedLongitudinalForce = actualForce;
+
+        if (maximumTireForce > 0.001f)
+        {
+            wheel.longitudinalGripUsage =
+                actualForce.magnitude / maximumTireForce;
+        }
+        else
+        {
+            wheel.longitudinalGripUsage = 0f;
+        }
 
         if (drawDebugForces)
         {
@@ -319,6 +343,25 @@ public class KartMotor : MonoBehaviour
         rb.velocity -= horizontalVelocity;
     }
 
+    private void ResetLongitudinalGripData()
+    {
+        ResetWheelLongitudinalData(controller.frontLeft);
+        ResetWheelLongitudinalData(controller.frontRight);
+        ResetWheelLongitudinalData(controller.rearLeft);
+        ResetWheelLongitudinalData(controller.rearRight);
+    }
+
+    private void ResetWheelLongitudinalData(KartWheel wheel)
+    {
+        if (wheel == null)
+        {
+            return;
+        }
+
+        wheel.longitudinalGripUsage = 0f;
+        wheel.appliedLongitudinalForce = Vector3.zero;
+    }
+
     private void OnGUI()
     {
         if (!showDebugInfo)
@@ -339,6 +382,30 @@ public class KartMotor : MonoBehaviour
         GUI.Label(
             new Rect(20, 250, 500, 25),
             $"Braking: {IsBraking}  Reversing: {IsReversing}"
+        );
+
+        GUI.Label(
+            new Rect(20, 275, 700, 25),
+            $"FL Grip L:{controller.frontLeft.lateralGripUsage:F2} " +
+            $"T:{controller.frontLeft.longitudinalGripUsage:F2}"
+        );
+
+        GUI.Label(
+            new Rect(20, 300, 700, 25),
+            $"FR Grip L:{controller.frontRight.lateralGripUsage:F2} " +
+            $"T:{controller.frontRight.longitudinalGripUsage:F2}"
+        );
+
+        GUI.Label(
+            new Rect(20, 325, 700, 25),
+            $"RL Grip L:{controller.rearLeft.lateralGripUsage:F2} " +
+            $"T:{controller.rearLeft.longitudinalGripUsage:F2}"
+        );
+
+        GUI.Label(
+            new Rect(20, 350, 700, 25),
+            $"RR Grip L:{controller.rearRight.lateralGripUsage:F2} " +
+            $"T:{controller.rearRight.longitudinalGripUsage:F2}"
         );
     }
 }
